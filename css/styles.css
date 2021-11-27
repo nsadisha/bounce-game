@@ -121,4 +121,7 @@ body{
         width: 98vw;
         margin-top: 0;
     }
+    #reset-msg{
+        display: none;
+    }
 }
