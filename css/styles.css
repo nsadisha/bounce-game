@@ -27,7 +27,7 @@ body{
     transform: translateY(calc(-75% + 1rem));
 }
 .bounce{
-    animation: bounce 1s;
+    animation: bounce;
     animation-timing-function: cubic-bezier(.14,.79,1,.86,.15);
     animation-play-state: running;
 }
@@ -61,7 +61,7 @@ body{
     background-color: blueviolet;
     top: calc(75% - 2rem);
     transform: translateY(calc(-75% + 1rem));
-    animation: moveobs 3s;
+    animation: moveobs;
     animation-timing-function: linear;
 }
 /* .obs::before{

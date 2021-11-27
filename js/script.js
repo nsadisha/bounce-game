@@ -1,8 +1,9 @@
 //configuration
-const obsDuration = 0.2
-const dificultyInterval = 1500
-const removeBounceClassTimeout = 900
+const dificultyChangeRate =5000
 
+var ballAnimationDuration = 1000
+var obsRate = 0.7
+var obsDuration = 3500
 var isStarted = false;
 var isGameOver = false;
 var score = 0;
@@ -17,11 +18,14 @@ var checkGameInterval = null
 var newObsInterval =  null
 var removeObsTimeout = null
 var ballTimeout = null
+var dificultyInterval = null
 
 //update message
 updateMessage("Press spacebar/tap to start.")
 //update max score
 updateMaxScore()
+//update ball animation duration
+udateBallAnimationDuration(ballAnimationDuration)
 
 //on keypress
 window.addEventListener('keypress', (e) =>{
@@ -43,12 +47,12 @@ window.addEventListener('keypress', (e) =>{
         //remove bounce class
         ballTimeout = setTimeout(function(){
             ball.classList.remove('bounce')
-        }, removeBounceClassTimeout)
+        }, ballAnimationDuration-50)
     }
 })
 
 //on touch
-window.addEventListener('touchstart',(e) => {
+window.addEventListener('touchstart',() => {
     //start the game
     if(!isStarted){
         startGame()
@@ -61,7 +65,7 @@ window.addEventListener('touchstart',(e) => {
         //remove bounce class
         ballTimeout = setTimeout(function(){
             ball.classList.remove('bounce')
-        }, removeBounceClassTimeout)
+        }, ballAnimationDuration-50)
     }
 })
 
@@ -71,11 +75,14 @@ function createObs(){
 
     var obs = document.createElement('div')
     var date = new Date()
+
+    var delay = ballAnimationDuration/2000 + Math.random()*1
     
     obs.classList.add('obs')
     obs.id = "obs"+date.getMilliseconds()
-    obs.style.left = 100+Math.random()*50+"%"
-    obs.style.animationDuration = obsDuration*1000
+    obs.style.left = 110+"%"
+    obs.style.animationDuration = obsDuration/1000+"s"
+    obs.style.animationDelay = delay+"s"
     
     //add obs element into the game
     game.appendChild(obs)
@@ -83,7 +90,7 @@ function createObs(){
     removeObsTimeout = setTimeout(function(){
         if(!isGameOver)
         game.removeChild(obs)
-    }, 5000)
+    }, obsDuration+delay*1000)
 }
 
 // check game over
@@ -115,6 +122,24 @@ function updateScore(){
     // console.log(score);
     document.querySelector('#score').innerHTML = "Score: "+score
     score++
+    console.log("duration: "+obsDuration+", rate: "+obsRate);
+}
+
+//update dificulty
+function updateDificulty(){
+    if(obsDuration>50){
+        // obsDuration -= 50;
+        obsRate += 0.1
+        ballAnimationDuration -= 50
+        clearInterval(createObs)
+        setInterval(createObs, 1000/obsRate)
+        udateBallAnimationDuration(ballAnimationDuration)
+    }
+}
+
+//update ball animation duration
+function udateBallAnimationDuration(duration){
+    ball.style.animationDuration = duration/1000+"s"
 }
 
 //start the game
@@ -124,6 +149,10 @@ function startGame(){
         game.removeChild(item)
     })
 
+    //reset configuration
+    ballAnimationDuration = 1000
+    obsRate = 0.7
+    obsDuration = 3500
     isStarted = true
     isGameOver = false
     score = 0
@@ -133,12 +162,13 @@ function startGame(){
     //set a timeout for removing ball animation class
     ballTimeout = setTimeout(function(){
         ball.classList.remove('bounce')
-    }, removeBounceClassTimeout)
+    }, ballAnimationDuration)
 
     //setting intervals
     updateScoreInterval = setInterval(updateScore, 100)
     checkGameInterval = setInterval(checkGame, 5)
-    newObsInterval =  setInterval(createObs, dificultyInterval)
+    newObsInterval =  setInterval(createObs, 1000/obsRate)
+    // dificultyInterval = setInterval(updateDificulty, dificultyChangeRate)
     updateMessage("")
 }
 
@@ -150,6 +180,7 @@ function stopGame(){
     clearInterval(checkGameInterval)
     clearInterval(updateScoreInterval)
     clearTimeout(removeObsTimeout)
+    clearInterval(dificultyInterval)
 }
 
 //game over
