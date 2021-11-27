@@ -22,6 +22,7 @@ updateMessage("Press spacebar to start.")
 //update max score
 updateMaxScore()
 
+//on keypress
 window.addEventListener('keypress', (e) =>{
     //start the game
     if(!isStarted){
@@ -36,6 +37,23 @@ window.addEventListener('keypress', (e) =>{
     
     //bounsing
     if(e.key == ' ' && !ball.classList.contains('bounce')){
+        ball.classList.add('bounce')
+        
+        ballTimeout = setTimeout(function(){
+            ball.classList.remove('bounce')
+        }, removeBounceClassTimeout)
+    }
+})
+
+//on touch
+window.addEventListener('touchstart',(e) => {
+    //start the game
+    if(!isStarted){
+        startGame()
+    }
+    
+    //bounsing
+    if(!ball.classList.contains('bounce')){
         ball.classList.add('bounce')
         
         ballTimeout = setTimeout(function(){
