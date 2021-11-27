@@ -19,7 +19,7 @@ var removeObsTimeout = null
 var ballTimeout = null
 
 //update message
-updateMessage("Press spacebar to start.")
+updateMessage("Press spacebar/tap to start.")
 //update max score
 updateMaxScore()
 
@@ -158,7 +158,7 @@ function gameOver(){
         item.style.animationPlayState = 'paused'
     })
     stopGame()
-    updateMessage("Gameover! <br>Press spacebar to start again.")
+    updateMessage("Gameover! <br>Press spacebar/tap to start again.")
     console.log("Gameover");
 
     //update max score
