@@ -19,7 +19,7 @@ body{
 .ball{
     position: absolute;
     width: 2rem;
-    width: 2rem;
+    height: 2rem;
     background-color: red;
     /* clip-path: circle(); */
     top: calc(75% - 2rem);
