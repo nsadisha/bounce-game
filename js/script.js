@@ -1,3 +1,4 @@
+//configuration
 const obsDuration = 0.2
 const dificultyInterval = 1500
 const removeBounceClassTimeout = 900
@@ -28,8 +29,8 @@ window.addEventListener('keypress', (e) =>{
     if(!isStarted){
         startGame()
     }
+    // reset the game
     if(e.key == '0'){
-        //clear max
         gameOver()
         setMaxScore(0)
         updateMaxScore()
@@ -39,6 +40,7 @@ window.addEventListener('keypress', (e) =>{
     if(e.key == ' ' && !ball.classList.contains('bounce')){
         ball.classList.add('bounce')
         
+        //remove bounce class
         ballTimeout = setTimeout(function(){
             ball.classList.remove('bounce')
         }, removeBounceClassTimeout)
@@ -56,6 +58,7 @@ window.addEventListener('touchstart',(e) => {
     if(!ball.classList.contains('bounce')){
         ball.classList.add('bounce')
         
+        //remove bounce class
         ballTimeout = setTimeout(function(){
             ball.classList.remove('bounce')
         }, removeBounceClassTimeout)
@@ -74,7 +77,9 @@ function createObs(){
     obs.style.left = 100+Math.random()*50+"%"
     obs.style.animationDuration = obsDuration*1000
     
+    //add obs element into the game
     game.appendChild(obs)
+    //remove the added obs element from the game adter 5000ms
     removeObsTimeout = setTimeout(function(){
         if(!isGameOver)
         game.removeChild(obs)
@@ -84,16 +89,19 @@ function createObs(){
 // check game over
 function checkGame(){
     if(!isStarted) return;
+    //get ball positions
     var bstyle = ball.getBoundingClientRect()
 
     //update obs
     obs = document.querySelectorAll('.obs')
     
     obs.forEach(item =>{
+        //get obs positions
         var obsStyle = item.getBoundingClientRect()
-        
+        //checking if the ball hits an obs or not
         var conX = bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right || bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right;
         var conY = bstyle.bottom>obsStyle.top
+        
         if(conX && conY){
             clearTimeout(ballTimeout)
             ball.style.animationPlayState = 'paused'
@@ -120,11 +128,14 @@ function startGame(){
     isGameOver = false
     score = 0
 
+    // set ball animation state to running
     ball.style.animationPlayState = 'running'
+    //set a timeout for removing ball animation class
     ballTimeout = setTimeout(function(){
         ball.classList.remove('bounce')
     }, removeBounceClassTimeout)
 
+    //setting intervals
     updateScoreInterval = setInterval(updateScore, 100)
     checkGameInterval = setInterval(checkGame, 5)
     newObsInterval =  setInterval(createObs, dificultyInterval)
