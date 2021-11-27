@@ -101,7 +101,7 @@ function checkGame(){
         //checking if the ball hits an obs or not
         var conX = bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right || bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right;
         var conY = bstyle.bottom>obsStyle.top
-        
+
         if(conX && conY){
             clearTimeout(ballTimeout)
             ball.style.animationPlayState = 'paused'
@@ -174,12 +174,15 @@ function updateMessage(_msg){
     document.querySelector('#msg').innerHTML = _msg
 }
 
+//update the max score value
 function setMaxScore(score) {
     localStorage.setItem('maxScore', score)
 }
+//update max score in the game
 function updateMaxScore() {
     document.querySelector('#maxscore').innerHTML = "Max score: "+getMaxScore()
 }
+//get max score
 function getMaxScore() {
     if(localStorage.getItem('maxScore'))
         return localStorage.getItem('maxScore')
