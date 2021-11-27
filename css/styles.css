@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+    font-family: consolas;
 }
 body{
     background: #eef;
@@ -9,7 +10,7 @@ body{
     position: relative;
     width: 55vw;
     height: 70vh;
-    margin-top: 10vh;
+    margin-top: 5vh;
     background-color: white;
     margin-left: auto;
     margin-right: auto;
@@ -78,5 +79,46 @@ body{
 @keyframes moveobs {
     to{
         left: -5%;
+    }
+}
+
+#score{
+    margin-top: 2rem;
+}
+#msg{
+    margin-top: 1rem;
+    animation: blink 1s infinite ease-in-out;
+}
+@keyframes blink {
+    0%{
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    50%{
+        opacity: 1;
+        transform: scale(1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+@media only screen and (max-width: 1000px){
+    body{
+        background-color: white;
+    }
+    .game{
+        width: 80vw;
+    }
+
+    #score{
+        margin-top: 0;
+    }
+}
+@media only screen and (max-width: 500px){
+    .game{
+        width: 98vw;
+        margin-top: 0;
     }
 }
