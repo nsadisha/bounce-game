@@ -87,42 +87,57 @@ function createObs(){
     //add obs element into the game
     game.appendChild(obs)
     //remove the added obs element from the game adter 5000ms
-    removeObsTimeout = setTimeout(function(){
-        if(!isGameOver)
-        game.removeChild(obs)
-    }, obsDuration+delay*1000)
+    // removeObsTimeout = setTimeout(function(){
+    //     if(!isGameOver)
+    //     game.removeChild(obs)
+    // }, obsDuration+delay*1000)
 }
 
 // check game over
 function checkGame(){
     if(!isStarted) return;
     //get ball positions
-    var bstyle = ball.getBoundingClientRect()
-
+    
     //update obs
     obs = document.querySelectorAll('.obs')
     
     obs.forEach(item =>{
-        //get obs positions
-        var obsStyle = item.getBoundingClientRect()
-        //checking if the ball hits an obs or not
-        var conX = bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right || bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right;
-        var conY = bstyle.bottom>obsStyle.top
-
-        if(conX && conY){
+        if(isHit(item)){
             clearTimeout(ballTimeout)
             ball.style.animationPlayState = 'paused'
             gameOver()
         }
+
+        //removing passed obs
+        if(item.getBoundingClientRect().right < game.getBoundingClientRect().left){
+            removeObs(item)
+        }
     })
 }
+
+//remove an obs
+function removeObs(_obs){
+    game.removeChild(_obs)
+}
+
+// is obs hits a ball
+function isHit(_obs) {
+    var bstyle = ball.getBoundingClientRect()
+    //get obs positions
+    var obsStyle = _obs.getBoundingClientRect()
+    //checking if the ball hits an obs or not
+    var conX = bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right || bstyle.right>=obsStyle.left && bstyle.left<obsStyle.right;
+    var conY = bstyle.bottom>obsStyle.top
+
+    return conX && conY
+}
+
 //update score
 function updateScore(){
     if(!isStarted) return;
     // console.log(score);
     document.querySelector('#score').innerHTML = "Score: "+score
     score++
-    console.log("duration: "+obsDuration+", rate: "+obsRate);
 }
 
 //update dificulty
