@@ -42,12 +42,7 @@ window.addEventListener('keypress', (e) =>{
     
     //bounsing
     if(e.key == ' ' && !ball.classList.contains('bounce')){
-        ball.classList.add('bounce')
-        
-        //remove bounce class
-        ballTimeout = setTimeout(function(){
-            ball.classList.remove('bounce')
-        }, ballAnimationDuration-50)
+        jump()
     }
 })
 
@@ -60,14 +55,18 @@ window.addEventListener('touchstart',() => {
     
     //bounsing
     if(!ball.classList.contains('bounce')){
-        ball.classList.add('bounce')
-        
-        //remove bounce class
-        ballTimeout = setTimeout(function(){
-            ball.classList.remove('bounce')
-        }, ballAnimationDuration-50)
+        jump()
     }
 })
+
+function jump() {
+    ball.classList.add('bounce')
+    
+    //remove bounce class
+    ballTimeout = setTimeout(function(){
+        ball.classList.remove('bounce')
+    }, ballAnimationDuration-150)
+}
 
 //create a new obstacle
 function createObs(){
@@ -96,7 +95,6 @@ function createObs(){
 // check game over
 function checkGame(){
     if(!isStarted) return;
-    //get ball positions
     
     //update obs
     obs = document.querySelectorAll('.obs')
